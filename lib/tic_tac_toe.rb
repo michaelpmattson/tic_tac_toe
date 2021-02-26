@@ -230,6 +230,3 @@ class Game
     puts 'No winner this time. Both players are losers!'
   end
 end
-
-my_game = Game.new
-my_game.play
