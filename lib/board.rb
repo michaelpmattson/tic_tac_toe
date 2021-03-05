@@ -31,15 +31,6 @@ class Board
     puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
 
-  def three_in_row?
-    # true if row? || column? || diagonal?
-    result = false
-    ROWS.each do |row|
-      result = true if row.all? { |i| @xs.include? i } || row.all? { |i| @os.include? i }
-    end
-    result
-  end
-
   def check_tokens
     check_xs
     check_os
@@ -54,23 +45,6 @@ class Board
     @board.each_with_index { |value, index| @os.push(index) if value == 'o' }
   end
 
-  def row?
-    true if row1? || row2? || row3?
-  end
-
-  def column?
-    true if column1? || column2? || column3?
-  end
-
-  def diagonal?
-    true if diagonal_up? || diagonal_down?
-  end
-
-  def reset_tokens
-    xs.clear
-    os.clear
-  end
-
   def check_full
     x_and_o = %w[x o]
     count = 0
@@ -78,5 +52,14 @@ class Board
       count += 1 if x_and_o.include? i # count up to 9 spaces
       @full = true if count == 9
     end
+  end
+
+  def three_in_row?
+    # true if row? || column? || diagonal?
+    result = false
+    ROWS.each do |row|
+      result = true if row.all? { |i| @xs.include? i } || row.all? { |i| @os.include? i }
+    end
+    result
   end
 end
