@@ -85,7 +85,8 @@ class Game
   def check_num(value)
     spaces = (1..9).to_a # this is an array of the values that are valid
     if spaces.include?(value)
-      used?(value) # it's a valid space. check if it's been used already. if not, player goes here (run update_board).
+      # it's a valid space. check if it's been used already. if not, player goes here (run update_board).
+      used?(value)
     else
       puts "Sorry, that's not a valid choice. Please try again."
       player_move(gets.chomp)
@@ -103,7 +104,8 @@ class Game
 
   def update_board(value)
     @used.push(value) # store the current value in class variable array, used.
-    @my_board.board[value - 1] = @current_player.token
+    @my_board.add(value, @current_player.token)
+    # @my_board.board[value - 1] = @current_player.token
   end
 
   def check_win

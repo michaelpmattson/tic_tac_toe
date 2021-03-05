@@ -23,6 +23,10 @@ class Board
     @full = false
   end
 
+  def add(value, token)
+    @board[@board.index(value)] = token
+  end
+
   def display_board
     puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
     puts '---+---+---'
@@ -32,16 +36,16 @@ class Board
   end
 
   def check_tokens
-    check_xs
-    check_os
+    store_xs
+    store_os
     check_full
   end
 
-  def check_xs
+  def store_xs
     @board.each_with_index { |value, index| @xs.push(index) if value == 'x' }
   end
 
-  def check_os
+  def store_os
     @board.each_with_index { |value, index| @os.push(index) if value == 'o' }
   end
 
