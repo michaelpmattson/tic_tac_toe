@@ -108,7 +108,7 @@ class Game
 
   def check_win
     @my_board.check_tokens
-    announce_winner if @my_board.row? || @my_board.column? || @my_board.diagonal?
+    announce_winner if @my_board.three_in_row?
   end
 
   def announce_winner
