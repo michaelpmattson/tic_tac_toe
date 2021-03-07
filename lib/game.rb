@@ -23,13 +23,8 @@ class Game
 
   def choose_player
     coinflip = rand(2)
-    if coinflip.zero?
-      @current_player = @player1
-      @other_player = @player2
-    else
-      @current_player = @player2
-      @other_player = @player1
-    end
+    @current_player = coinflip.zero? ? @player1 : @player2
+    @other_player = coinflip.zero? ? @player2 : @player1
   end
 
   def set_token
@@ -42,9 +37,7 @@ class Game
   end
 
   def play
-    display_clear
-    display(header)
-    display(@my_board.display_board)
+    display_reset
     display(tell[:welcome])
     ask_names
     choose_player
@@ -53,9 +46,11 @@ class Game
     take_turns
   end
 
-  # def welcome
-  #   puts tell[:welcome]
-  # end
+  def display_reset
+    display_clear
+    display(header)
+    display(@my_board.display_board)
+  end
 
   def ask_names
     display('Player 1: Enter your name.')
@@ -65,13 +60,9 @@ class Game
   end
 
   def explain
-    display_clear
-    display(header)
-    display(@my_board.display_board)
+    display_reset
     display("Hi #{@player1.name} and #{@player2.name}. Let's pick x's and o's randomly, and a player to go first.")
-    puts
     display("#{@current_player.name}, you'll be x. #{@other_player.name}, you'll be o. x goes first")
-    puts
   end
 
   def take_turns
@@ -82,9 +73,7 @@ class Game
       check_win # check and announce the winnner if there are 3 in a row
       no_winner if @my_board.full == true # check the board for full
       change_player
-      display_clear
-      display(header)
-      display(@my_board.display_board)
+      display_reset
     end
   end
 
@@ -124,18 +113,14 @@ class Game
 
   def announce_winner
     @win = true
-    display_clear
-    display(header)
-    display(@my_board.display_board)
+    display_reset
     display("#{@current_player.name} is the winner!")
     exit
   end
 
   def no_winner
     @win = true
-    display_clear
-    display(header)
-    display(@my_board.display_board)
+    display_reset
     display(tell[:tie])
     exit
   end

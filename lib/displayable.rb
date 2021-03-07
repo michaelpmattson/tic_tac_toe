@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# various display commands, kept here for organization.
 module Displayable
   LINE_WIDTH = 80
 
@@ -30,7 +31,6 @@ module Displayable
   def tell
     { welcome: 'Welcome to tic-tac-toe.',
       invalid: "Sorry, that's not a valid choice. Please try again.",
-      tie: 'No winner this time. Both players are losers!'
-    }
+      tie: 'No winner this time. Both players are losers!' }
   end
 end

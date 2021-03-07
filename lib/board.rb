@@ -12,7 +12,7 @@ class Board
   COLUMN3 = [2, 5, 8].freeze
   DIAGONAL_UP = [2, 4, 6].freeze
   DIAGONAL_DOWN = [0, 4, 8].freeze
-  ROWS = [ROW1, ROW2, ROW3, COLUMN1, COLUMN2, COLUMN3, DIAGONAL_UP, DIAGONAL_DOWN]
+  ROWS = [ROW1, ROW2, ROW3, COLUMN1, COLUMN2, COLUMN3, DIAGONAL_UP, DIAGONAL_DOWN].freeze
 
   attr_accessor :board, :xs, :os, :full
 
