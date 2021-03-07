@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 # This makes the board. That's all.
 class Board
   ROW1 = [0, 1, 2].freeze

@@ -3,7 +3,6 @@
 require_relative 'board.rb'
 require_relative 'player.rb'
 require_relative 'displayable.rb'
-require 'pry'
 
 # Everything else is here.
 class Game
