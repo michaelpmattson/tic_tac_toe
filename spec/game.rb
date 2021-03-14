@@ -50,7 +50,7 @@ describe Game do
   end
 
   describe '#check_num(value)' do
-    
+
   end
 
   describe '#used?(value)' do
@@ -58,7 +58,7 @@ describe Game do
   end
 
   describe '#update_board(value)' do
-
+    # script
   end
 
   describe '#check_win' do
