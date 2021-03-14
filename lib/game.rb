@@ -2,9 +2,12 @@
 
 require_relative 'board.rb'
 require_relative 'player.rb'
+require_relative 'displayable.rb'
 
 # Everything else is here.
 class Game
+  include Displayable
+
   attr_accessor :my_board, :player1, :player2, :current_player, :other_player, :win, :used
 
   def initialize
@@ -19,13 +22,8 @@ class Game
 
   def choose_player
     coinflip = rand(2)
-    if coinflip.zero?
-      @current_player = @player1
-      @other_player = @player2
-    else
-      @current_player = @player2
-      @other_player = @player1
-    end
+    @current_player = coinflip.zero? ? @player1 : @player2
+    @other_player = coinflip.zero? ? @player2 : @player1
   end
 
   def set_token
@@ -38,7 +36,8 @@ class Game
   end
 
   def play
-    welcome
+    display_reset
+    display(tell[:welcome])
     ask_names
     choose_player
     set_token
@@ -46,35 +45,34 @@ class Game
     take_turns
   end
 
-  def welcome
-    puts 'Welcome to tic-tac-toe.'
+  def display_reset
+    display_clear
+    display(header)
+    display(@my_board.display_board)
   end
 
   def ask_names
-    puts 'Player 1: Enter your name.'
+    display('Player 1: Enter your name.')
     @player1.name = gets.chomp
-    puts 'Player 2: Enter your name.'
+    display('Player 2: Enter your name.')
     @player2.name = gets.chomp
   end
 
   def explain
-    puts
-    puts "Hi #{@player1.name} and #{@player2.name}. Let's pick x's and o's randomly, and a player to go first."
-    puts
-    puts "#{@current_player.name}, you'll be x. #{@other_player.name}, you'll be o. x goes first"
-    puts
+    display_reset
+    display("Hi #{@player1.name} and #{@player2.name}. Let's pick x's and o's randomly, and a player to go first.")
+    display("#{@current_player.name}, you'll be x. #{@other_player.name}, you'll be o. x goes first")
   end
 
   def take_turns
     while @win == false
-      @my_board.display_board
-      puts
-      puts "#{@current_player.name}, where would you like to go?"
+      display("#{@current_player.name}, where would you like to go?")
       player_move(gets.chomp)
       puts
       check_win # check and announce the winnner if there are 3 in a row
       no_winner if @my_board.full == true # check the board for full
       change_player
+      display_reset
     end
   end
 
@@ -85,16 +83,17 @@ class Game
   def check_num(value)
     spaces = (1..9).to_a # this is an array of the values that are valid
     if spaces.include?(value)
-      used?(value) # it's a valid space. check if it's been used already. if not, player goes here (run update_board).
+      # it's a valid space. check if it's been used already. if not, player goes here (run update_board).
+      used?(value)
     else
-      puts "Sorry, that's not a valid choice. Please try again."
+      display(tell[:invalid])
       player_move(gets.chomp)
     end
   end
 
   def used?(value)
     if @used.include?(value)
-      puts "Sorry, that's used already. Please try again."
+      display(tell[:invalid])
       player_move(gets.chomp)
     else
       update_board(value) # it's all good. go here.
@@ -103,22 +102,25 @@ class Game
 
   def update_board(value)
     @used.push(value) # store the current value in class variable array, used.
-    @my_board.board[value - 1] = @current_player.token
+    @my_board.add(value, @current_player.token)
   end
 
   def check_win
     @my_board.check_tokens
-    announce_winner if @my_board.row? || @my_board.column? || @my_board.diagonal?
+    announce_winner if @my_board.three_in_row?
   end
 
   def announce_winner
     @win = true
-    @my_board.display_board
-    puts "#{@current_player.name} is the winner!"
+    display_reset
+    display("#{@current_player.name} is the winner!")
+    exit
   end
 
   def no_winner
     @win = true
-    puts 'No winner this time. Both players are losers!'
+    display_reset
+    display(tell[:tie])
+    exit
   end
 end
